@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Aid & Justice in India — Live Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a08;
+  --surface:#111110;
+  --surface2:#1a1a17;
+  --gold:#c9a84c;
+  --gold-dim:#7a6230;
+  --gold-pale:rgba(201,168,76,0.08);
+  --red:#c94c4c;
+  --green:#4cad72;
+  --white:#f0ede6;
+  --muted:#6b6a60;
+  --border:rgba(201,168,76,0.18);
+}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:'Crimson Pro',serif;overflow-x:hidden}
+
+/* BACKGROUND TEXTURE */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,0.03) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh;position:relative;z-index:1;animation:fadeIn 0.4s ease}
+.screen.active{display:flex;flex-direction:column}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LANDING ── */
+#s-landing{align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+.scales{font-size:64px;margin-bottom:24px;display:block;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.landing-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.landing-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,96px);line-height:0.95;letter-spacing:0.02em;color:var(--white);margin-bottom:8px}
+.landing-title span{color:var(--gold)}
+.landing-sub{font-size:18px;color:var(--muted);font-style:italic;margin-bottom:48px;max-width:400px}
+.landing-divider{width:60px;height:1px;background:var(--gold-dim);margin:0 auto 48px}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:560px;width:100%}
+@media(max-width:500px){.mode-cards{grid-template-columns:1fr}}
+.mode-card{border:1px solid var(--border);background:var(--surface);padding:32px 24px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden}
+.mode-card::before{content:'';position:absolute;inset:0;background:var(--gold-pale);opacity:0;transition:opacity 0.25s}
+.mode-card:hover::before{opacity:1}
+.mode-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.mode-icon{font-size:32px;margin-bottom:16px;display:block}
+.mode-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.05em;color:var(--gold);margin-bottom:6px}
+.mode-desc{font-size:14px;color:var(--muted);line-height:1.5}
+.mode-card .arrow{position:absolute;bottom:16px;right:20px;font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--gold-dim);transition:all 0.2s}
+.mode-card:hover .arrow{color:var(--gold);transform:translateX(4px)}
+
+/* ── SHARED LAYOUT ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.05em;color:var(--gold)}
+.topbar-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
+.back-btn{background:none;border:none;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:0.1em;transition:color 0.2s}
+.back-btn:hover{color:var(--gold)}
+
+/* ── JOIN SCREEN ── */
+#s-join{align-items:center;justify-content:center;padding:40px 20px}
+.join-box{background:var(--surface);border:1px solid var(--border);padding:40px;max-width:420px;width:100%}
+.join-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:0.05em;color:var(--gold);margin-bottom:4px}
+.join-sub{font-size:14px;color:var(--muted);margin-bottom:28px;font-style:italic}
+.field-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.field-input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--white);font-family:'Crimson Pro',serif;font-size:16px;padding:12px 16px;outline:none;transition:border-color 0.2s;margin-bottom:16px}
+.field-input:focus{border-color:var(--gold)}
+.field-input::placeholder{color:var(--muted)}
+.btn-primary{width:100%;background:var(--gold);color:var(--bg);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.08em;border:none;padding:14px;cursor:pointer;transition:all 0.2s}
+.btn-primary:hover{background:var(--white)}
+.btn-primary:disabled{background:var(--gold-dim);cursor:not-allowed;color:rgba(10,10,8,0.5)}
+
+/* ── LOBBY ── */
+#s-lobby{align-items:center;justify-content:center;padding:40px 20px}
+.lobby-box{background:var(--surface);border:1px solid var(--border);padding:40px;max-width:480px;width:100%;text-align:center}
+.lobby-scales{font-size:48px;animation:sway 4s ease-in-out infinite}
+.lobby-name{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);margin:12px 0 4px}
+.lobby-sub{font-size:15px;color:var(--muted);font-style:italic;margin-bottom:32px}
+.pulse-dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;margin-right:8px;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.7)}}
+.player-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.chip{background:var(--surface2);border:1px solid var(--border);padding:6px 14px;font-size:13px;color:var(--white);animation:chipIn 0.3s ease}
+@keyframes chipIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+
+/* ── QUESTION (PARTICIPANT) ── */
+#s-question{flex-direction:column}
+.q-main{flex:1;padding:24px;max-width:680px;margin:0 auto;width:100%}
+.q-progress-bar{height:3px;background:var(--surface2);margin-bottom:24px;position:relative}
+.q-progress-fill{height:100%;background:var(--gold);transition:width 0.5s ease}
+.q-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;margin-bottom:12px;display:flex;justify-content:space-between}
+.q-text{font-size:clamp(20px,3vw,28px);font-weight:600;line-height:1.35;margin-bottom:32px;color:var(--white)}
+.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+@media(max-width:500px){.opts-grid{grid-template-columns:1fr}}
+.opt-btn{background:var(--surface);border:1px solid var(--border);padding:16px 20px;text-align:left;cursor:pointer;transition:all 0.2s;font-family:'Crimson Pro',serif;font-size:16px;color:var(--white);position:relative;overflow:hidden}
+.opt-btn::before{content:attr(data-key);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);display:block;margin-bottom:4px;letter-spacing:0.1em}
+.opt-btn:hover:not(.locked){border-color:var(--gold);background:var(--gold-pale);transform:translateY(-1px)}
+.opt-btn.selected{border-color:var(--gold);background:var(--gold-pale)}
+.opt-btn.correct{border-color:var(--green)!important;background:rgba(76,173,114,0.1)!important;color:var(--green)!important}
+.opt-btn.correct::before{color:var(--green)!important}
+.opt-btn.wrong{border-color:var(--red)!important;background:rgba(201,76,76,0.1)!important;color:var(--red)!important;opacity:0.7}
+.opt-btn.wrong::before{color:var(--red)!important}
+.opt-btn.locked{cursor:not-allowed}
+.reveal-card{background:var(--surface);border:1px solid var(--green);padding:20px 24px;margin-top:8px;display:none}
+.reveal-card.show{display:block;animation:fadeIn 0.3s ease}
+.reveal-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px}
+.reveal-text{font-size:15px;color:var(--white);font-style:italic;line-height:1.5}
+
+/* TIMER */
+.timer-wrap{display:flex;align-items:center;gap:10px}
+.timer-bar{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.timer-fill{height:100%;background:var(--gold);transition:width 1s linear,background 0.3s}
+.timer-num{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;min-width:28px;text-align:right}
+
+/* LIVE RAIL */
+.live-rail{background:var(--surface);border-top:1px solid var(--border);padding:16px 24px}
+.rail-inner{max-width:680px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:500px){.rail-inner{grid-template-columns:1fr}}
+.rail-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.lb-item{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:14px}
+.lb-rank{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold-dim);width:20px}
+.lb-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0;font-family:'IBM Plex Mono',monospace}
+.lb-n{flex:1;color:var(--white)}
+.lb-s{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold)}
+.feed-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:13px}
+.feed-n{flex:1;color:var(--muted)}
+.feed-opt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white)}
+.feed-mark{font-size:14px}
+
+/* ── HOST SCREEN ── */
+#s-host{flex-direction:column}
+.host-body{flex:1;display:grid;grid-template-columns:1fr 320px;overflow:hidden}
+@media(max-width:800px){.host-body{grid-template-columns:1fr;overflow:visible}}
+.host-main{padding:24px;overflow-y:auto;border-right:1px solid var(--border)}
+.host-sidebar{padding:20px;overflow-y:auto;background:var(--surface)}
+.host-q-card{background:var(--surface2);border:1px solid var(--border);padding:24px;margin-bottom:16px}
+.host-q-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.15em;margin-bottom:8px}
+.host-q-text{font-size:17px;font-weight:600;line-height:1.4;margin-bottom:12px}
+.host-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.host-opts{grid-template-columns:1fr}}
+.host-opt{padding:10px 14px;font-size:13px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Crimson Pro',serif}
+.host-opt.answer{border-color:var(--green);color:var(--green);background:rgba(76,173,114,0.08)}
+.host-opt::before{content:attr(data-key);font-family:'IBM Plex Mono',monospace;font-size:10px;margin-right:8px;color:var(--gold)}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.stat-box{background:var(--surface2);border:1px solid var(--border);padding:14px;text-align:center}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);line-height:1}
+.stat-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+.ctrl-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.ctrl-btn{background:var(--surface2);border:1px solid var(--border);color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.05em;padding:10px 20px;cursor:pointer;transition:all 0.2s;flex:1;min-width:100px}
+.ctrl-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.ctrl-btn:disabled{opacity:0.3;cursor:not-allowed}
+.ctrl-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.ctrl-btn.primary:hover:not(:disabled){background:var(--white);border-color:var(--white);color:var(--bg)}
+.ctrl-btn.danger{border-color:rgba(201,76,76,0.3)}
+.ctrl-btn.danger:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.code-display{background:var(--bg);border:1px solid var(--gold);padding:14px;text-align:center;margin-bottom:16px}
+.code-val{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:0.15em;color:var(--gold)}
+.code-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:0.1em}
+.copy-btn{width:100%;background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;padding:8px;cursor:pointer;transition:all 0.2s;margin-bottom:16px}
+.copy-btn:hover{border-color:var(--gold);color:var(--gold)}
+.host-password{background:var(--surface2);border:1px solid rgba(201,76,76,0.3);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--red);letter-spacing:0.1em;margin-bottom:16px}
+
+/* ── END SCREEN ── */
+#s-end{align-items:center;justify-content:center;padding:40px 20px}
+.end-box{background:var(--surface);border:1px solid var(--border);padding:40px;max-width:480px;width:100%;text-align:center}
+.end-icon{font-size:56px;margin-bottom:16px;display:block}
+.end-title{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--gold);letter-spacing:0.05em;margin-bottom:4px}
+.end-sub{font-size:15px;color:var(--muted);font-style:italic;margin-bottom:28px}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:24px 0}
+.podium-place{display:flex;flex-direction:column;align-items:center;gap:8px}
+.podium-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace}
+.podium-name{font-size:12px;color:var(--white);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.podium-score{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold)}
+.podium-bar{width:60px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px}
+.podium-1 .podium-bar{height:80px;background:var(--gold);color:var(--bg)}
+.podium-2 .podium-bar{height:56px;background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+.podium-3 .podium-bar{height:40px;background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+.final-lb{text-align:left;margin-top:16px}
+.play-again{margin-top:24px;background:none;border:1px solid var(--gold);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.08em;padding:12px 32px;cursor:pointer;transition:all 0.2s}
+.play-again:hover{background:var(--gold);color:var(--bg)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gold);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:10px 20px;letter-spacing:0.1em;transition:transform 0.3s;z-index:999}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* HOST PASSWORD MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(10,10,8,0.85);z-index:100;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--gold);padding:36px;max-width:360px;width:90%;text-align:center}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);margin-bottom:8px}
+.modal p{font-size:14px;color:var(--muted);margin-bottom:20px;font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="s-landing" class="screen active">
+  <span class="scales">⚖️</span>
+  <p class="landing-kicker">Live Knowledge Challenge</p>
+  <h1 class="landing-title">Legal Aid<br>&amp; <span>Justice</span><br>in India</h1>
+  <p class="landing-sub">A live quiz on courts, legal aid &amp; access to justice</p>
+  <div class="landing-divider"></div>
+  <div class="mode-cards">
+    <div class="mode-card" onclick="goJoin()">
+      <span class="mode-icon">🙋</span>
+      <div class="mode-title">Participant</div>
+      <div class="mode-desc">Join a live quiz session with your join code</div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="mode-card" onclick="showHostModal()">
+      <span class="mode-icon">🎙️</span>
+      <div class="mode-title">Host</div>
+      <div class="mode-desc">Run the quiz, control questions &amp; reveal answers</div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOST PASSWORD MODAL -->
+<div class="modal-bg" id="modal-host">
+  <div class="modal">
+    <h3>Host Access</h3>
+    <p>Enter the host password to control the quiz</p>
+    <input type="password" class="field-input" id="host-pwd-input" placeholder="Password" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')checkHostPwd()">
+    <button class="btn-primary" onclick="checkHostPwd()">Enter Host Mode</button>
+    <br><button onclick="closeHostModal()" style="margin-top:12px;background:none;border:none;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer">Cancel</button>
+    <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--gold-dim);letter-spacing:0.08em">DEFAULT PASSWORD: JUSTICE2024</p>
+  </div>
+</div>
+
+<!-- JOIN SCREEN (PARTICIPANT) -->
+<div id="s-join" class="screen">
+  <button class="back-btn" onclick="goHome()" style="position:absolute;top:20px;left:20px;z-index:2">← Back</button>
+  <div class="join-box">
+    <div class="join-title">Join Quiz</div>
+    <div class="join-sub">Enter the code shared by your host</div>
+    <label class="field-label">Your Name</label>
+    <input type="text" class="field-input" id="p-name" placeholder="e.g. Priya Sharma" maxlength="24">
+    <label class="field-label">Join Code</label>
+    <input type="text" class="field-input" id="p-code" placeholder="e.g. QZ-4821" maxlength="7" style="text-transform:uppercase;letter-spacing:0.12em;font-family:'IBM Plex Mono',monospace;font-size:18px" oninput="this.value=this.value.toUpperCase()">
+    <button class="btn-primary" onclick="joinQuiz()">Join Now</button>
+  </div>
+</div>
+
+<!-- LOBBY (waiting room) -->
+<div id="s-lobby" class="screen">
+  <div class="lobby-box">
+    <div class="lobby-scales">⚖️</div>
+    <div class="lobby-name" id="lobby-name"></div>
+    <div class="lobby-sub">You're in the lobby!</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:12px">
+      <span class="pulse-dot"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">Waiting for host to start…</span>
+    </div>
+    <div class="player-chips" id="lobby-chips"></div>
+    <p style="margin-top:24px;font-size:12px;color:var(--gold-dim);font-family:'IBM Plex Mono',monospace" id="lobby-count"></p>
+  </div>
+</div>
+
+<!-- QUESTION SCREEN (PARTICIPANT) -->
+<div id="s-question" class="screen">
+  <div class="topbar">
+    <div class="topbar-title">Legal Aid &amp; Justice</div>
+    <div class="topbar-meta" id="q-topbar-meta">Q1 of 5</div>
+  </div>
+  <div class="q-main">
+    <div class="q-progress-bar"><div class="q-progress-fill" id="q-prog"></div></div>
+    <div class="q-meta">
+      <span id="q-label">Question 1</span>
+      <div class="timer-wrap" style="width:180px">
+        <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+        <span class="timer-num" id="timer-num">30</span>
+      </div>
+    </div>
+    <div class="q-text" id="q-text"></div>
+    <div class="opts-grid" id="opts-grid"></div>
+    <div class="reveal-card" id="reveal-card">
+      <div class="reveal-label">✦ Answer Revealed</div>
+      <div class="reveal-text" id="reveal-text"></div>
+    </div>
+  </div>
+  <div class="live-rail">
+    <div class="rail-inner">
+      <div>
+        <div class="rail-title">⬆ Leaderboard</div>
+        <div id="p-lb-list"></div>
+      </div>
+      <div>
+        <div class="rail-title">⚡ Answer Feed</div>
+        <div id="p-feed-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOST SCREEN -->
+<div id="s-host" class="screen">
+  <div class="topbar">
+    <div class="topbar-title">Host Dashboard</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span id="host-status-badge" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--muted)">SETUP</span>
+      <button class="back-btn" onclick="goHome()">← Exit</button>
+    </div>
+  </div>
+  <div class="host-body">
+    <!-- MAIN -->
+    <div class="host-main">
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-n" id="h-players">0</div><div class="stat-l">Players</div></div>
+        <div class="stat-box"><div class="stat-n" id="h-answered">—</div><div class="stat-l">Answered</div></div>
+        <div class="stat-box"><div class="stat-n" id="h-qnum">—</div><div class="stat-l">Question</div></div>
+      </div>
+      <div class="ctrl-row">
+        <button class="ctrl-btn primary" id="h-btn-start" onclick="hostStart()">▶ Start Quiz</button>
+        <button class="ctrl-btn" id="h-btn-next" onclick="hostNext()" disabled>Next →</button>
+        <button class="ctrl-btn" id="h-btn-reveal" onclick="hostReveal()" disabled>👁 Reveal</button>
+        <button class="ctrl-btn danger" id="h-btn-end" onclick="hostEnd()" disabled>■ End</button>
+      </div>
+      <div id="h-q-display">
+        <p style="font-size:14px;color:var(--muted);font-style:italic">Start the quiz to display questions here.</p>
+      </div>
+    </div>
+    <!-- SIDEBAR -->
+    <div class="host-sidebar">
+      <div class="code-display" id="h-code-display" style="display:none">
+        <div class="code-val" id="h-code-val"></div>
+        <div class="code-hint">Share this code with participants</div>
+      </div>
+      <button class="copy-btn" id="h-copy-btn" style="display:none" onclick="copyJoinCode()">⎘ COPY CODE</button>
+      <div class="host-password">🔒 HOST PASSWORD: JUSTICE2024</div>
+      <div class="rail-title" style="margin-bottom:10px">⬆ Leaderboard</div>
+      <div id="h-lb-list" style="margin-bottom:20px"><p style="font-size:13px;color:var(--muted)">No players yet</p></div>
+      <div class="rail-title" style="margin-bottom:10px">⚡ Answer Feed</div>
+      <div id="h-feed-list"><p style="font-size:13px;color:var(--muted)">Waiting…</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div id="s-end" class="screen">
+  <div class="end-box">
+    <span class="end-icon">🏛️</span>
+    <div class="end-title">Quiz Over!</div>
+    <div class="end-sub" id="end-sub">Final standings</div>
+    <div class="podium" id="end-podium"></div>
+    <div class="final-lb" id="end-lb"></div>
+    <button class="play-again" onclick="goHome()">↩ Back to Home</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const QUESTIONS = [
+  {
+    q: "NALSA's 2011 regulations require clinics to serve a village or cluster of villages. In 2017, there were 42 such clinics. How many villages were being served by 2024?",
+    opts: ["42 villages", "98 villages", "163 villages", "211 villages"],
+    correct: 2,
+    explanation: "By 2024 the Legal Services Authority network had expanded significantly — 163 villages were being served through these clinics, up from just 42 in 2017."
+  },
+  {
+    q: "India's prison population stands at 5.7 lakh. What percentage of prisoners are undertrials — people still awaiting trial?",
+    opts: ["44%", "58%", "76%", "89%"],
+    correct: 2,
+    explanation: "76% of India's prison population are undertrials — people not yet convicted of any crime, detained while awaiting trial. This reflects severe delays in the justice system."
+  },
+  {
+    q: "The Law Commission recommends 50 judges per 10 lakh population. How many judges does India currently have per 10 lakh people?",
+    opts: ["Roughly 15", "Roughly 25", "Roughly 35", "Roughly 45"],
+    correct: 0,
+    explanation: "India has roughly 15 judges per 10 lakh people — just 30% of the Law Commission's recommended strength of 50. This severe shortage is a key driver of case backlogs."
+  },
+  {
+    q: "How many cases are currently pending across all Indian courts?",
+    opts: ["1.2 crore", "2.8 crore", "4.1 crore", "5.5 crore"],
+    correct: 3,
+    explanation: "India has approximately 5.5 crore (55 million) cases pending across its courts — one of the world's largest judicial backlogs."
+  },
+  {
+    q: "At the current rate of disposal, if no new cases were filed, how long would it take to clear all pending cases?",
+    opts: ["Roughly 100 years", "Roughly 300 years", "Roughly 615 years", "Roughly 900 years"],
+    correct: 2,
+    explanation: "At current disposal rates, it would take approximately 615 years to clear India's backlog even if not a single new case were filed — a stark illustration of the justice deficit."
+  }
+];
+
+const HOST_PASSWORD = "JUSTICE2024";
+const AVATAR_COLORS = [
+  ['#c94c4c','#3d1212'],['#4cad72','#122d1c'],['#c9a84c','#3d3212'],
+  ['#4c7ec9','#122040'],['#c94cad','#3d1235'],['#4cc9c9','#123d3d']
+];
+const KEYS = ['A','B','C','D'];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let state = {
+  phase: 'idle',        // idle | lobby | question | reveal | ended
+  joinCode: '',
+  players: {},          // name → {score, color, answered}
+  feed: [],
+  currentQ: -1,
+  myName: '',
+  myScore: 0,
+  myAnswered: false,
+  timerInterval: null,
+  timerVal: 30,
+  isHost: false,
+  revealed: false
+};
+
+// Simulate shared state via localStorage (works for same-device demo)
+// For real multi-device: replace with Firebase/WebSocket
+function saveSharedState(){
+  localStorage.setItem('quiz_state', JSON.stringify({
+    phase: state.phase,
+    joinCode: state.joinCode,
+    players: state.players,
+    feed: state.feed,
+    currentQ: state.currentQ,
+    revealed: state.revealed
+  }));
+}
+function loadSharedState(){
+  const raw = localStorage.getItem('quiz_state');
+  if(!raw) return null;
+  try{ return JSON.parse(raw); }catch(e){ return null; }
+}
+function clearSharedState(){
+  localStorage.removeItem('quiz_state');
+}
+
+// Poll for state changes (simulates real-time for same-device demo)
+let pollInterval = null;
+function startPolling(){
+  if(pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(syncFromStorage, 800);
+}
+function stopPolling(){ clearInterval(pollInterval); pollInterval = null; }
+
+function syncFromStorage(){
+  if(state.isHost) return; // host owns the state
+  const shared = loadSharedState();
+  if(!shared) return;
+
+  const prevPhase = state.phase;
+  const prevQ = state.currentQ;
+  const prevRevealed = state.revealed;
+
+  state.phase = shared.phase;
+  state.joinCode = shared.joinCode;
+  state.feed = shared.feed || [];
+  state.currentQ = shared.currentQ;
+  state.revealed = shared.revealed;
+
+  // Merge player scores (preserve mine)
+  const myEntry = state.players[state.myName];
+  state.players = shared.players || {};
+  if(myEntry && state.players[state.myName]) {
+    // keep server score
+  }
+
+  // React to phase changes
+  if(shared.phase === 'lobby' && prevPhase === 'idle'){
+    // nothing — already in lobby
+  }
+  if(shared.phase === 'question' && (prevPhase === 'lobby' || prevQ !== shared.currentQ)){
+    state.myAnswered = false;
+    showScreen('s-question');
+    renderQuestion();
+  }
+  if(shared.phase === 'reveal' && !prevRevealed){
+    showReveal();
+    stopTimer();
+  }
+  if(shared.phase === 'ended' && prevPhase !== 'ended'){
+    showScreen('s-end');
+    renderEndScreen();
+    stopPolling();
+  }
+
+  // Always update live data
+  renderLB();
+  renderFeed();
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function goHome(){
+  stopPolling(); stopTimer();
+  state = {...state, phase:'idle', isHost:false, myName:'', myScore:0, myAnswered:false, currentQ:-1, feed:[], players:{}, revealed:false};
+  showScreen('s-landing');
+}
+function goJoin(){ showScreen('s-join'); }
+function showHostModal(){
+  document.getElementById('modal-host').classList.add('show');
+  document.getElementById('host-pwd-input').value='';
+  setTimeout(()=>document.getElementById('host-pwd-input').focus(),100);
+}
+function closeHostModal(){ document.getElementById('modal-host').classList.remove('show'); }
+function checkHostPwd(){
+  const val = document.getElementById('host-pwd-input').value.trim();
+  if(val.toUpperCase() === HOST_PASSWORD){
+    closeHostModal();
+    enterHostMode();
+  } else {
+    showToast('Incorrect password');
+    document.getElementById('host-pwd-input').select();
+  }
+}
+
+// ─── HOST MODE ───────────────────────────────────────────────────────────────
+function enterHostMode(){
+  state.isHost = true;
+  state.phase = 'idle';
+  state.joinCode = 'QZ-' + Math.floor(1000+Math.random()*9000);
+  state.players = {};
+  state.feed = [];
+  state.currentQ = -1;
+  state.revealed = false;
+  clearSharedState();
+  showScreen('s-host');
+  document.getElementById('h-code-display').style.display='block';
+  document.getElementById('h-copy-btn').style.display='block';
+  document.getElementById('h-code-val').textContent = state.joinCode;
+  renderHostQ();
+  // Save initial lobby state
+  state.phase = 'lobby';
+  saveSharedState();
+  document.getElementById('h-players').textContent = 0;
+  document.getElementById('host-status-badge').textContent = 'LOBBY OPEN';
+  // Poll for players joining
+  startHostPoll();
+}
+
+let hostPollInterval = null;
+function startHostPoll(){
+  if(hostPollInterval) clearInterval(hostPollInterval);
+  hostPollInterval = setInterval(()=>{
+    // Check if any participant joined
+    const shared = loadSharedState();
+    if(shared && shared.players) {
+      const prevCount = Object.keys(state.players).length;
+      // Merge new players
+      Object.keys(shared.players).forEach(n=>{
+        if(!state.players[n]) state.players[n] = shared.players[n];
+      });
+      if(Object.keys(state.players).length !== prevCount){
+        document.getElementById('h-players').textContent = Object.keys(state.players).length;
+        renderLB();
+        saveSharedState();
+      }
+    }
+  }, 600);
+}
+
+function hostStart(){
+  document.getElementById('h-btn-start').disabled = true;
+  document.getElementById('h-btn-next').disabled = false;
+  document.getElementById('h-btn-end').disabled = false;
+  document.getElementById('host-status-badge').textContent = 'LIVE';
+  hostNext();
+}
+
+function hostNext(){
+  state.currentQ++;
+  if(state.currentQ >= QUESTIONS.length){ hostEnd(); return; }
+  state.phase = 'question';
+  state.revealed = false;
+  state.feed = [];
+  document.getElementById('h-btn-reveal').disabled = false;
+  document.getElementById('h-btn-next').disabled = true;
+  document.getElementById('h-answered').textContent = '0';
+  document.getElementById('h-qnum').textContent = `${state.currentQ+1}/${QUESTIONS.length}`;
+  document.getElementById('host-status-badge').textContent = `Q${state.currentQ+1} LIVE`;
+  saveSharedState();
+  renderHostQ();
+  renderLB();
+  renderFeed();
+  simulateAnswers();
+}
+
+function hostReveal(){
+  state.phase = 'reveal';
+  state.revealed = true;
+  document.getElementById('h-btn-reveal').disabled = true;
+  document.getElementById('h-btn-next').disabled = false;
+  saveSharedState();
+  renderHostQ();
+}
+
+function hostEnd(){
+  state.phase = 'ended';
+  state.revealed = true;
+  if(hostPollInterval) clearInterval(hostPollInterval);
+  document.getElementById('h-btn-next').disabled = true;
+  document.getElementById('h-btn-reveal').disabled = true;
+  document.getElementById('h-btn-end').disabled = true;
+  document.getElementById('host-status-badge').textContent = 'ENDED';
+  saveSharedState();
+  showScreen('s-end');
+  renderEndScreen();
+}
+
+function simulateAnswers(){
+  // Simulate participants answering (for demo purposes when no real devices)
+  const names = Object.keys(state.players);
+  names.forEach((n,i)=>{
+    setTimeout(()=>{
+      if(state.currentQ < 0 || state.phase !== 'question') return;
+      const q = QUESTIONS[state.currentQ];
+      const correct = Math.random() > 0.45;
+      const chosen = correct ? q.correct : [0,1,2,3].filter(x=>x!==q.correct)[Math.floor(Math.random()*3)];
+      state.players[n] = state.players[n] || {score:0, color:i%AVATAR_COLORS.length};
+      if(correct) state.players[n].score = (state.players[n].score||0) + Math.max(10, 30 - i*4);
+      state.feed.unshift({name:n, chosen, correct, time:Date.now()});
+      const answered = state.feed.length;
+      document.getElementById('h-answered').textContent = answered;
+      saveSharedState();
+      renderLB();
+      renderFeed();
+    }, 800 + i*700 + Math.random()*600);
+  });
+}
+
+function renderHostQ(){
+  const container = document.getElementById('h-q-display');
+  if(state.currentQ < 0){
+    container.innerHTML = '<p style="font-size:14px;color:var(--muted);font-style:italic">Start the quiz to display questions here.</p>';
+    return;
+  }
+  const q = QUESTIONS[state.currentQ];
+  container.innerHTML = `
+    <div class="host-q-card">
+      <div class="host-q-num">QUESTION ${state.currentQ+1} OF ${QUESTIONS.length}</div>
+      <div class="host-q-text">${q.q}</div>
+      <div class="host-opts">
+        ${q.opts.map((o,i)=>`<div class="host-opt${state.revealed && i===q.correct?' answer':''}" data-key="${KEYS[i]}">${o}</div>`).join('')}
+      </div>
+      ${state.revealed ? `<div style="margin-top:16px;padding:14px;border:1px solid var(--green);background:rgba(76,173,114,0.06);font-size:14px;font-style:italic;color:var(--green)">✦ ${q.explanation}</div>` : '<p style="font-size:12px;color:var(--muted);margin-top:12px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:0.1em">ANSWER HIDDEN FROM PARTICIPANTS — CLICK REVEAL WHEN READY</p>'}
+    </div>`;
+}
+
+// ─── PARTICIPANT MODE ─────────────────────────────────────────────────────────
+function joinQuiz(){
+  const name = document.getElementById('p-name').value.trim();
+  const code = document.getElementById('p-code').value.trim().toUpperCase();
+  if(!name){ showToast('Enter your name'); return; }
+  if(code.length < 6){ showToast('Enter a valid join code'); return; }
+
+  const shared = loadSharedState();
+  if(!shared || shared.joinCode !== code){
+    showToast('Invalid code — check with your host');
+    return;
+  }
+  if(shared.phase !== 'lobby' && shared.phase !== 'question'){
+    showToast('Quiz is not accepting new players');
+    return;
+  }
+
+  state.myName = name;
+  state.joinCode = code;
+  state.phase = shared.phase;
+  state.currentQ = shared.currentQ;
+  state.players = shared.players || {};
+
+  // Register myself
+  const colorIdx = Object.keys(state.players).length % AVATAR_COLORS.length;
+  state.players[name] = {score:0, color:colorIdx};
+  saveSharedState();
+
+  document.getElementById('lobby-name').textContent = name;
+  document.getElementById('lobby-chips').innerHTML = '';
+  updateLobbyChips();
+
+  if(shared.phase === 'lobby'){
+    showScreen('s-lobby');
+  } else {
+    showScreen('s-question');
+    renderQuestion();
+  }
+  startPolling();
+}
+
+function updateLobbyChips(){
+  const chips = document.getElementById('lobby-chips');
+  Object.keys(state.players).forEach(n=>{
+    if(!chips.querySelector(`[data-name="${n}"]`)){
+      const c = document.createElement('div');
+      c.className = 'chip';
+      c.dataset.name = n;
+      c.textContent = n;
+      chips.appendChild(c);
+    }
+  });
+  const count = Object.keys(state.players).length;
+  const el = document.getElementById('lobby-count');
+  if(el) el.textContent = `${count} player${count!==1?'s':''} in lobby`;
+}
+
+function renderQuestion(){
+  if(state.currentQ < 0 || state.currentQ >= QUESTIONS.length) return;
+  const q = QUESTIONS[state.currentQ];
+  const pct = ((state.currentQ+1)/QUESTIONS.length*100).toFixed(0);
+  document.getElementById('q-prog').style.width = pct+'%';
+  document.getElementById('q-topbar-meta').textContent = `Q${state.currentQ+1} of ${QUESTIONS.length}`;
+  document.getElementById('q-label').textContent = `Question ${state.currentQ+1}`;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('reveal-card').classList.remove('show');
+  document.getElementById('reveal-text').textContent = '';
+  state.myAnswered = false;
+  const grid = document.getElementById('opts-grid');
+  grid.innerHTML = q.opts.map((o,i)=>`
+    <button class="opt-btn" data-key="${KEYS[i]}" data-idx="${i}" onclick="selectAnswer(this,${i})">
+      ${o}
+    </button>`).join('');
+  startTimer();
+  renderLB();
+  renderFeed();
+}
+
+function selectAnswer(btn, idx){
+  if(state.myAnswered || state.revealed) return;
+  state.myAnswered = true;
+  const q = QUESTIONS[state.currentQ];
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.add('locked'));
+  btn.classList.add('selected');
+  // Register answer
+  const correct = idx === q.correct;
+  state.feed.unshift({name:state.myName, chosen:idx, correct, time:Date.now()});
+  if(correct) {
+    state.players[state.myName] = state.players[state.myName] || {score:0};
+    state.players[state.myName].score = (state.players[state.myName].score||0) + Math.max(10, state.timerVal * 1.5 | 0);
+  }
+  saveSharedState();
+  renderFeed();
+  renderLB();
+}
+
+function showReveal(){
+  const q = QUESTIONS[state.currentQ];
+  document.querySelectorAll('.opt-btn').forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === q.correct) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+  document.getElementById('reveal-text').textContent = q.explanation;
+  document.getElementById('reveal-card').classList.add('show');
+}
+
+// ─── TIMER ───────────────────────────────────────────────────────────────────
+function startTimer(){
+  stopTimer();
+  state.timerVal = 30;
+  updateTimerUI(30);
+  state.timerInterval = setInterval(()=>{
+    state.timerVal--;
+    updateTimerUI(state.timerVal);
+    if(state.timerVal <= 0){ stopTimer(); lockAnswers(); }
+  }, 1000);
+}
+function stopTimer(){ clearInterval(state.timerInterval); state.timerInterval = null; }
+function updateTimerUI(v){
+  const fill = document.getElementById('timer-fill');
+  const num = document.getElementById('timer-num');
+  if(!fill||!num) return;
+  fill.style.width = (v/30*100)+'%';
+  fill.style.background = v<=10?'var(--red)':v<=20?'var(--gold)':'var(--green)';
+  num.textContent = v;
+  num.style.color = v<=10?'var(--red)':v<=20?'var(--gold)':'var(--white)';
+}
+function lockAnswers(){
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.add('locked'));
+}
+
+// ─── LEADERBOARD & FEED ──────────────────────────────────────────────────────
+function renderLB(){
+  const sorted = Object.entries(state.players)
+    .map(([n,d])=>({n, score:d?.score||0, color:d?.color||0}))
+    .sort((a,b)=>b.score-a.score)
+    .slice(0,6);
+
+  const html = sorted.map(({n,score,color},i)=>{
+    const [fg,bg] = AVATAR_COLORS[color%AVATAR_COLORS.length];
+    const init = n.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="lb-item">
+      <span class="lb-rank">${i+1}</span>
+      <div class="lb-av" style="background:${bg};color:${fg}">${init}</div>
+      <span class="lb-n">${n}</span>
+      <span class="lb-s">${score}pts</span>
+    </div>`;
+  }).join('') || '<p style="font-size:13px;color:var(--muted)">No players yet</p>';
+
+  ['p-lb-list','h-lb-list'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.innerHTML=html;
+  });
+}
+
+function renderFeed(){
+  const html = (state.feed||[]).slice(0,6).map(f=>{
+    const label = KEYS[f.chosen] || '?';
+    return `<div class="feed-item">
+      <span class="feed-n">${f.name}</span>
+      <span class="feed-opt">${label}</span>
+      <span class="feed-mark">${f.correct?'✅':'❌'}</span>
+    </div>`;
+  }).join('') || '<p style="font-size:13px;color:var(--muted)">No answers yet</p>';
+
+  ['p-feed-list','h-feed-list'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.innerHTML=html;
+  });
+}
+
+// ─── END SCREEN ───────────────────────────────────────────────────────────────
+function renderEndScreen(){
+  const sorted = Object.entries(state.players)
+    .map(([n,d])=>({n, score:d?.score||0, color:d?.color||0}))
+    .sort((a,b)=>b.score-a.score);
+
+  document.getElementById('end-sub').textContent = `${sorted.length} participants — ${QUESTIONS.length} questions`;
+
+  // Podium
+  const podium = document.getElementById('end-podium');
+  const places = [sorted[1], sorted[0], sorted[2]].filter(Boolean);
+  const placeClasses = ['podium-2','podium-1','podium-3'];
+  const placeNums = ['2','1','3'];
+  podium.innerHTML = places.map((p,i)=>{
+    const cls = sorted[1]&&sorted[0]&&sorted[2] ? placeClasses[i] : 'podium-1';
+    const num = sorted[1]&&sorted[0]&&sorted[2] ? placeNums[i] : '1';
+    const [fg,bg] = AVATAR_COLORS[p.color%AVATAR_COLORS.length];
+    const init = p.n.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="podium-place ${cls}">
+      <div class="podium-av" style="background:${bg};color:${fg}">${init}</div>
+      <div class="podium-name">${p.n}</div>
+      <div class="podium-score">${p.score}pts</div>
+      <div class="podium-bar">${num}</div>
+    </div>`;
+  }).join('');
+
+  // Full list
+  document.getElementById('end-lb').innerHTML = sorted.map(({n,score,color},i)=>{
+    const [fg,bg] = AVATAR_COLORS[color%AVATAR_COLORS.length];
+    const init = n.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="lb-item" style="padding:7px 0">
+      <span class="lb-rank">${i+1}</span>
+      <div class="lb-av" style="background:${bg};color:${fg}">${init}</div>
+      <span class="lb-n">${n}</span>
+      <span class="lb-s">${score}pts</span>
+    </div>`;
+  }).join('');
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function copyJoinCode(){
+  navigator.clipboard.writeText(state.joinCode).then(()=>showToast('Code copied!')).catch(()=>{});
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// Close modal on bg click
+document.getElementById('modal-host').addEventListener('click', function(e){
+  if(e.target===this) closeHostModal();
+});
+</script>
+</body>
+</html>
